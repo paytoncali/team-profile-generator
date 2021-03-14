@@ -1,58 +1,59 @@
 const { expect, test } = require("@jest/globals");
-const Engineer = require("../lib/engineer");
+const Manager = require("../lib/manager");
 
-describe ("Engineer", () => {
+describe ("Manager", () => {
     describe("Initialization", () => {
-        it("returns object with name, id, email and github", () => {
-            const objectEngineer = new Engineer();
+        it("returns object with name, id, email and officenumber", () => {
+            const objectManager = new Manager();
 
-            expect("name" in objectEngineer).toEqual(true);
-            expect("id" in objectEngineer).toEqual(true);
-            expect("email" in objectEngineer).toEqual(true);
+            expect("name" in objectManager).toEqual(true);
+            expect("id" in objectManager).toEqual(true);
+            expect("email" in objectManager).toEqual(true);
+            expect("officeNumber" in objectManager).toEqual(true);
         });
     });
 
 });
 
-test("can add name, id, email and github with contructor", () => {
+test("can add name, id, email and officenumber with contructor", () => {
     const name = "Payton";
     const id = 555;
     const email = "payton@gmail.com";
-    const github = "paytoncali"
-    const engineer = new Engineer("Payton", 555, "payton@gmail.com", "paytoncali");
+    const officeNumber = 5555555555
+    const manager = new Manager("Payton", 555, "payton@gmail.com", 5555555555);
 
-    expect(engineer.name).toBe(name);
-    expect(engineer.id).toBe(id);
-    expect(engineer.email).toBe(email);
-    expect(engineer.github).toBe(github);
+    expect(manager.name).toBe(name);
+    expect(manager.id).toBe(id);
+    expect(manager.email).toBe(email);
+    expect(manager.officeNumber).toBe(officeNumber);
 });
 
 test('getName function works', () => {
-    const engineer = new Engineer("Payton", 555, "payton@gmail.com", "payton");
+    const manager = new Manager("Payton", 555, "payton@gmail.com", 5555555555);
 
-    expect(engineer.getName()).toBe("Payton");
+    expect(manager.getName()).toBe("Payton");
 });
 
 test('getId function works', () => {
-    const engineer = new Engineer("Payton", 555, "payton@gmail.com", "paytoncali");
+    const manager = new Manager("Payton", 555, "payton@gmail.com", 5555555555);
 
-    expect(engineer.getId()).toBe(555);
+    expect(manager.getId()).toBe(555);
 });
 
 test('getEmail function works', () => {
-    const engineer = new Engineer("Payton", 555, "payton@gmail.com", "paytoncali");
+    const manager = new Manager("Payton", 555, "payton@gmail.com", 5555555555);
 
-    expect(engineer.getEmail()).toBe("payton@gmail.com");
+    expect(manager.getEmail()).toBe("payton@gmail.com");
 });
 
 test('getGithub function works', () => {
-    const engineer = new Engineer("Payton", 555, "payton@gmail.com", "paytoncali");
+    const manager = new Manager("Payton", 555, "payton@gmail.com", 5555555555);
     
-    expect(engineer.getGithub()).toBe("paytoncali");
+    expect(manager.getOfficeNumber()).toBe(5555555555);
 });
 
 test('getRole function works', () => {
-    const engineer = new Engineer("Payton", 555, "payton@gmail.com", "paytoncali");
+    const manager = new Manager("Payton", 555, "payton@gmail.com", 55555555555);
 
-    expect(engineer.getRole()).toBe("Engineer");
+    expect(manager.getRole()).toBe("Manager");
 });

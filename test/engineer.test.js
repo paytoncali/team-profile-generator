@@ -9,6 +9,7 @@ describe ("Engineer", () => {
             expect("name" in objectEngineer).toEqual(true);
             expect("id" in objectEngineer).toEqual(true);
             expect("email" in objectEngineer).toEqual(true);
+            expect("github" in objectEngineer).toEqual(true);
         });
     });
 
