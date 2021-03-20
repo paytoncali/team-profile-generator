@@ -1,8 +1,12 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
-const writeFileAsync = util.promisify(fs.writeFile);
+const Employee = require('./lib/employee');
+const Engineer = require('./lib/engineer');
+const Intern = require('./lib/intern');
+const Manager = require('./lib/manager');
 let cards = [];
 let employeeCard = [];
+let teamCard = [];
 
 const questions = () => {
     return inquirer.prompt ([
@@ -47,7 +51,12 @@ const managerQ = () => {
             type: "input",
             name: "officeNumber",
             message: "What is the office number?",
-        },
+        }
+    .then((data) => {
+    const managerCard = new Manager(data.givenName, data.id, data.email, data.officeNumber);
+        teamCard.push(managerCard);
+        cardOptions();
+    })
 ])};
 
 const internQ = () => {
@@ -56,7 +65,12 @@ const internQ = () => {
             type: "input",
             name: "school",
             message: "What school do they attend?",
-        },
+        }
+        .then((data) => {
+        const internCard = new Intern(data.givenName, data.id, data.email, data.school);
+        teamCard.push(internCard);
+        cardOptions();
+    })
 ])};
 
 const engineerQ = () => {
@@ -65,16 +79,16 @@ const engineerQ = () => {
             type: "input",
             name: "gitHub",
             message: "What is there GitHub username?",
-        },
+        }
+        .then((data) => {
+            const engineerCard = new Engineer(data.givenName, data.id, data.email, data.github);
+                team.push(engineerCard);
+                cardOptions();
+            })
 ])};
 
-function init() {
-    questions()
-}
 
-init();
-
-const initialHTML = (answers) => {
+const initialHTML = () => {
 `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -99,54 +113,54 @@ const initialHTML = (answers) => {
 `
 }
 
-const cards = (team) => {
-    for (let i=0; i < team.length; i++){
-        if(team[i].getRole() === "Manager"){
+const cardOptions = (teamCard) => {
+    for (let i=0; i < teamCard.length; i++){
+        if(data[i].getRole() === "Manager"){
             employeeCard[i] = 
             `<div class="col">
             <div class="card-body" style="width: 18rem;">
                 <div class="card-header text-white bg-primary" style="width: 18rem;" >
-                    <h5 class="card-title">${team[i].getName()}</h5>
-                    <h6 class="card-subtitle text-white">${team[i].getRole()}</h6>
+                    <h5 class="card-title">${teamCard[i].getName()}</h5>
+                    <h6 class="card-subtitle text-white">${teamCard[i].getRole()}</h6>
                 </div>
                 <div class="card" style="width: 18rem;">
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">ID: ${team[i].getId()}</li>
-                    <li class="list-group-item">Email: <a href="mailto:${team[i].getEmail()}">${team[i].getEmail()}</a></li>
-                    <li class="list-group-item">Office Number: ${team[i].officeNumber}</li>
+                    <li class="list-group-item">ID: ${teamCard[i].getId()}</li>
+                    <li class="list-group-item">Email: <a href="mailto:${teamCard[i].getEmail()}">${teamCard[i].getEmail()}</a></li>
+                    <li class="list-group-item">Office Number: ${teamCard[i].officeNumber}</li>
                 </ul>
                 <div></div>
             </div>
         </div>`
-        } else if(team[i].getRole() === "Intern") {
+        } else if(teamCard[i].getRole() === "Intern") {
             employeeCard[i] = 
             `<div class="col">
             <div class="card-body" style="width: 18rem;">
                 <div class="card-header text-white bg-primary" style="width: 18rem;" >
-                    <h5 class="card-title">${team[i].getName()}</h5>
-                    <h6 class="card-subtitle text-white">${team[i].getRole()}</h6>
+                    <h5 class="card-title">${teamCard[i].getName()}</h5>
+                    <h6 class="card-subtitle text-white">${teamCard[i].getRole()}</h6>
                 </div>
                 <div class="card" style="width: 18rem;">
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">ID: ${team[i].getId()}</li>
-                    <li class="list-group-item">Email: <a href="mailto:${team[i].getEmail()}">${team[i].getEmail()}</a></li>
-                    <li class="list-group-item">School: ${team[i].school}</li>
+                    <li class="list-group-item">ID: ${teamCard[i].getId()}</li>
+                    <li class="list-group-item">Email: <a href="mailto:${teamCard[i].getEmail()}">${teamCard[i].getEmail()}</a></li>
+                    <li class="list-group-item">School: ${teamCard[i].school}</li>
                 </ul>
                 <div></div>
             </div>
         </div>`
-        } else if (team[i].getRole() === "Engineer") {
+        } else if (teamCard[i].getRole() === "Engineer") {
             `<div class="col">
             <div class="card-body" style="width: 18rem;">
                 <div class="card-header text-white bg-primary" style="width: 18rem;" >
-                    <h5 class="card-title">${team[i].getName()}</h5>
-                    <h6 class="card-subtitle text-white">${team[i].getRole()}</h6>
+                    <h5 class="card-title">${teamCard[i].getName()}</h5>
+                    <h6 class="card-subtitle text-white">${teamCard[i].getRole()}</h6>
                 </div>
                 <div class="card" style="width: 18rem;">
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">ID: ${team[i].getId()}</li>
-                    <li class="list-group-item">Email: <a href="mailto:${team[i].getEmail()}">${team[i].getEmail()}</a></li>
-                    <li class="list-group-item">GitHub: ${team[i].github}</li>
+                    <li class="list-group-item">ID: ${teamCard[i].getId()}</li>
+                    <li class="list-group-item">Email: <a href="mailto:${teamCard[i].getEmail()}">${teamCard[i].getEmail()}</a></li>
+                    <li class="list-group-item">GitHub: ${teamCard[i].github}</li>
                 </ul>
                 <div></div>
             </div>
@@ -155,3 +169,25 @@ const cards = (team) => {
         cards.push(employeeCard[i]);
     }
 }
+
+function empCardHTML () {
+    cardOptions();
+    for(let i=0;i<employeeCard.length; i++){
+        fs.appendFile("./index.html", employeeCard.length[i].toString());
+    }
+}
+
+// function appendingFile (fileName, data) {
+//     fs.appendFile(fileName, data, (err) => 
+//     err ? console.err(err) : console.log('it worked'));
+//     empCardHTML();
+// }
+
+function writeHTML() {
+    questions()
+    .then((answers) => fs.writeFile('index.html', initialHTML(answers)))
+    .then((answers) => fs.appendFile('index.html', empCardHTML(answers)))
+   
+}
+
+writeHTML();
