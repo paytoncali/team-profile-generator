@@ -85,15 +85,16 @@ const engineerQ = () => {
             message: "What is there GitHub username?",
         }
     ])
-        .then((data) => {
-            const engineerCard = new Engineer(data.givenName, data.id, data.email, data.github);
-                team.push(engineerCard);
-                initialHTML();
-            })
+    .then((data) => {
+        const engineerCard = new Engineer(data.givenName, data.id, data.email, data.github);
+            team.push(engineerCard);
+            initialHTML();
+    })
 };
 
 
 const initialHTML = () => {
+    console.log("this works");
     return`<!DOCTYPE html>
 <html lang="en">
 <head>
