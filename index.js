@@ -58,7 +58,7 @@ const managerQ = () => {
     .then((data) => {
     const managerCard = new Manager(data.givenName, data.id, data.email, data.officeNumber);
         team.push(managerCard);
-        cardOptions();
+        initialHTML();
     })
 };
 
@@ -73,7 +73,7 @@ const internQ = () => {
         .then((data) => {
         const internCard = new Intern(data.givenName, data.id, data.email, data.school);
         team.push(internCard);
-        cardOptions();
+        initialHTML();
     })
 };
 
@@ -88,13 +88,12 @@ const engineerQ = () => {
         .then((data) => {
             const engineerCard = new Engineer(data.givenName, data.id, data.email, data.github);
                 team.push(engineerCard);
-                cardOptions();
+                initialHTML();
             })
 };
 
 
 const initialHTML = () => {
-    console.log("hi");
     return`<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -116,10 +115,11 @@ const initialHTML = () => {
     </style>
 </body>
 </html>
-`
+${cardOptions}`; 
 }
 
 const cardOptions = () => {
+    console.log("hi");
     for (let i=0; i < team.length; i++){
         if(team[i].getRole() === "Manager"){
             cards[i] = 
@@ -176,6 +176,12 @@ const cardOptions = () => {
     }
 }
 
+// const init = () => {
+//     initialHTML()
+//     .then(() => fs.appendFile("index.html", cardOptions))
+//     .then(() => console.log('index is ready'))
+//     .catch((err) => console.err(err));
+// }
 // function empCardHTML() {
 //     for(let i=0;i<cards.length; i++){
 //         fs.appendFile("./dist/index.html", cards.length[i].toString());
@@ -183,16 +189,15 @@ const cardOptions = () => {
 // }
 
 
-function writeHTML() {
-    fs.writeFile(data, (err) =>
-    err? console.log(err) : console.log('it worked'));
-    initialHTML();
-}
+// function writeHTML() {
+//     fs.writeFile(data, (err) =>
+//     err? console.log(err) : console.log('it worked'));
+//     initialHTML();
+// }
 
-function init() {
-    questions()
-    fs.appendFile("index.html", initialHTML)
-    fs.appendFile("index.html", cardOptions)
+questions();
+// function init() {
+//     fs.appendFile("index.html", initialHTML)
 
-}
-init();
+// }
+// init();
