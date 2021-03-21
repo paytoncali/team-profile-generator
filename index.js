@@ -29,7 +29,7 @@ const questions = () => {
             type: "list",
             name: "jobtitle",
             message: "What is the Employees Job Title?",
-            choices: ["Manager", "Intern", "Engineer"],
+            choices: ["Manager", "Intern", "Engineer", "Build Team"],
         },
     ])
     .then((data) => {
@@ -40,6 +40,10 @@ const questions = () => {
             internQ();
         } else if (data.jobtitle === "Engineer") {
             engineerQ();
+        } else if (data.jobtitle === "Build Team") {
+            fs.writeFile("index.html", initialHTML)
+            // .then(() => fs.appendFile("index.html", cardOptions));
+            if (err) throw (err);
         } else {
             console.log("Need to have a job title");
         }
@@ -58,7 +62,7 @@ const managerQ = () => {
     .then((data) => {
     const managerCard = new Manager(data.givenName, data.id, data.email, data.officeNumber);
         team.push(managerCard);
-        initialHTML();
+        questions();
     })
 };
 
@@ -73,7 +77,7 @@ const internQ = () => {
         .then((data) => {
         const internCard = new Intern(data.givenName, data.id, data.email, data.school);
         team.push(internCard);
-        initialHTML();
+        questions();
     })
 };
 
@@ -88,7 +92,7 @@ const engineerQ = () => {
     .then((data) => {
         const engineerCard = new Engineer(data.givenName, data.id, data.email, data.github);
             team.push(engineerCard);
-            initialHTML();
+            questions();
     })
 };
 
@@ -116,7 +120,7 @@ const initialHTML = () => {
     </style>
 </body>
 </html>
-${cardOptions}`; 
+`
 }
 
 const cardOptions = () => {
@@ -177,11 +181,10 @@ const cardOptions = () => {
     }
 }
 
-// const init = () => {
-//     initialHTML()
-//     .then(() => fs.appendFile("index.html", cardOptions))
-//     .then(() => console.log('index is ready'))
-//     .catch((err) => console.err(err));
+// const init = (data) => {
+//     fs.writeFile("index.html", data, initialHTML)
+//     .then(() => fs.appendFile("index.html", cardOptions));
+//     if (err) throw (err);
 // }
 // function empCardHTML() {
 //     for(let i=0;i<cards.length; i++){

@@ -12,8 +12,6 @@
 [License](#license)
 
 
- 
-
 ### Description
 This application helps the user collect and display employee information in a clean and easy way.
   
