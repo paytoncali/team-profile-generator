@@ -1,6 +1,6 @@
 const fs = require('fs');
 let cards = [];
-let card = []
+let card = [];
 
 const initialHTML = () => {
     console.log("this works");
@@ -23,13 +23,10 @@ const initialHTML = () => {
             padding: 25px;
         }
     </style>
-</body>
-</html>
-`
+    <div class="row">`
 }
 
 const cardOptionsHTML = (teamCards) => {
-    console.log("hi");
     for (let i=0; i < teamCards.length; i++){
         if(teamCards[i].getRole() === "Manager"){
             card[i] = 
@@ -45,7 +42,6 @@ const cardOptionsHTML = (teamCards) => {
                     <li class="list-group-item">Email: <a href="mailto:${teamCards[i].getEmail()}">${teamCards[i].getEmail()}</a></li>
                     <li class="list-group-item">Office Number: ${teamCards[i].officeNumber}</li>
                 </ul>
-                <div></div>
             </div>
         </div>` 
 } else if(teamCards[i].getRole() === "Intern"){
@@ -62,7 +58,6 @@ const cardOptionsHTML = (teamCards) => {
                     <li class="list-group-item">Email: <a href="mailto:${teamCards[i].getEmail()}">${teamCards[i].getEmail()}</a></li>
                     <li class="list-group-item">School: ${teamCards[i].school}</li>
                 </ul>
-                <div></div>
             </div>
         </div>`
     } else if (teamCards[i].getRole() === "Engineer"){
@@ -79,7 +74,6 @@ const cardOptionsHTML = (teamCards) => {
                     <li class="list-group-item">Email: <a href="mailto:${teamCards[i].getEmail()}">${teamCards[i].getEmail()}</a></li>
                     <li class="list-group-item">GitHub: ${teamCards[i].github}</li>
                 </ul>
-                <div></div>
             </div>
         </div>`
         }
@@ -88,7 +82,7 @@ const cardOptionsHTML = (teamCards) => {
 
 const HTMLBuild = () => {
     for(let i=0; i<card.length; i++){
-        appendToFile("./index.html", card[i].toString());
+        appendToFile("./dist/index.html", card[i].toString());
     }
 }
 
@@ -97,4 +91,12 @@ const appendToFile = (fileName, data) => {
     err ? console.error(err) : console.log("Committed"));
 }
 
-module.exports = {initialHTML, cardOptionsHTML, HTMLBuild};
+const finalHTML = () => {
+    appendToFile("./dist/index.html",
+    `
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    </body>
+    </html>`);
+}
+
+module.exports = {initialHTML, cardOptionsHTML, HTMLBuild, finalHTML};

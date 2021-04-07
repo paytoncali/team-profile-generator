@@ -7,7 +7,50 @@ const Intern = require('./lib/intern');
 const Manager = require('./lib/manager');
 let teamCards = [];
 
+const buildTeam = () => {
+    inquirer.prompt ([
+        {   
+            type: "list",
+            name: "build",
+            message: "Add Employee or Build Team?",
+            choices: ["Add Employee", "Build Team"],
+        }
+    ])
+    .then((data) => {
+        if (data.build === "Add Employee") {
+            questions();
+        } else if (data.build === "Build Team") {
+            let createCards = generateHTML.cardOptionsHTML(teamCards);
+            writeToFile("./dist/index.html", generateHTML.initialHTML());
+            generateHTML.HTMLBuild();
+            generateHTML.finalHTML();
+        } 
+    })
+};
+
 const questions = () => {
+    inquirer.prompt ([
+        {
+            type: "list",
+            name: "jobtitle",
+            message: "What is the Employees Job Title?",
+            choices: ["Manager", "Intern", "Engineer", "Build Team"],
+        },
+    ])
+    .then((data) => {
+        // initialHTML
+        if (data.jobtitle === "Manager") {
+            managerQ();
+        } else if (data.jobtitle === "Intern") {
+            internQ();
+        } else if (data.jobtitle === "Engineer") {
+            engineerQ();
+        } 
+    })
+}
+
+const managerQ = () => {
+    console.log("manager called");
     inquirer.prompt ([
         {
             type: "input",
@@ -25,45 +68,15 @@ const questions = () => {
             message: "What is the employees email address?",
         },
         {
-            type: "list",
-            name: "jobtitle",
-            message: "What is the Employees Job Title?",
-            choices: ["Manager", "Intern", "Engineer", "Build Team"],
-        },
-    ])
-    .then((data) => {
-        // initialHTML
-        if (data.jobtitle === "Manager") {
-            managerQ();
-            // .then => managerCard()
-        } else if (data.jobtitle === "Intern") {
-            internQ();
-        } else if (data.jobtitle === "Engineer") {
-            engineerQ();
-        } else if (data.jobtitle === "Build Team") {
-            let cardHTML = generateHTML.cardOptionsHTML(teamCards);
-            let beginHTML = generateHTML.initialHTML(teamCards);
-            writeToFile("./index.html", generateHTML.initialHTML());
-            generateHTML.HTMLBuild();
-        } else {
-            console.log("Need to have a job title");
-        }
-    })
-}
-
-const managerQ = () => {
-    console.log("manager called");
-    inquirer.prompt ([
-        {
             type: "input",
             name: "officeNumber",
             message: "What is the office number?",
         }
     ])
     .then((data) => {
-    const managerCard = new Manager(data.givenName, data.id, data.email, data.officeNumber);
+    const managerCard = new Manager(data.name, data.id, data.email, data.officeNumber);
         teamCards.push(managerCard);
-        questions();
+        buildTeam();
     })
 
 };
@@ -72,14 +85,29 @@ const internQ = () => {
     return inquirer.prompt ([
         {
             type: "input",
+            name: "name",
+            message: "What is the employees name?",
+        },
+        {
+            type: "input",
+            name: "id",
+            message: "What is the employees ID?",
+        },
+        {
+            type: "input",
+            name: "email",
+            message: "What is the employees email address?",
+        },
+        {
+            type: "input",
             name: "school",
             message: "What school do they attend?",
         }
     ])
         .then((data) => {
-        const internCard = new Intern(data.givenName, data.id, data.email, data.school);
+        const internCard = new Intern(data.name, data.id, data.email, data.school);
         teamCards.push(internCard);
-        questions();
+        buildTeam();
     })
 };
 
@@ -87,14 +115,29 @@ const engineerQ = () => {
     return inquirer.prompt ([
         {
             type: "input",
+            name: "name",
+            message: "What is the employees name?",
+        },
+        {
+            type: "input",
+            name: "id",
+            message: "What is the employees ID?",
+        },
+        {
+            type: "input",
+            name: "email",
+            message: "What is the employees email address?",
+        },
+        {
+            type: "input",
             name: "gitHub",
             message: "What is there GitHub username?",
         }
     ])
     .then((data) => {
-        const engineerCard = new Engineer(data.givenName, data.id, data.email, data.github);
+        const engineerCard = new Engineer(data.name, data.id, data.email, data.github);
             teamCards.push(engineerCard);
-        questions();
+        buildTeam();
     })
 };
 
@@ -103,5 +146,9 @@ const writeToFile = (file, data) => {
     err ? console.error(err) : console.log("html created"));
 }
 
+const appendToFile = (fileName, data) => {
+    fs.appendFile(fileName, data, (err) => 
+    err ? console.error(err) : console.log("Committed"));
+}
 
-questions();
+buildTeam();
