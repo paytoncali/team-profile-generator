@@ -1,12 +1,11 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
+const generateHTML = require('./src/generateHTML');
 const Employee = require('./lib/employee');
 const Engineer = require('./lib/engineer');
 const Intern = require('./lib/intern');
 const Manager = require('./lib/manager');
-let cards = [];
-let team = [];
-let cardEl = [];
+let teamCards = [];
 
 const questions = () => {
     inquirer.prompt ([
@@ -33,17 +32,19 @@ const questions = () => {
         },
     ])
     .then((data) => {
-        console.log(data);
+        // initialHTML
         if (data.jobtitle === "Manager") {
             managerQ();
+            // .then => managerCard()
         } else if (data.jobtitle === "Intern") {
             internQ();
         } else if (data.jobtitle === "Engineer") {
             engineerQ();
         } else if (data.jobtitle === "Build Team") {
-            fs.writeFile("index.html", initialHTML)
-            // .then(() => fs.appendFile("index.html", cardOptions));
-            if (err) throw (err);
+            let cardHTML = generateHTML.cardOptionsHTML(teamCards);
+            let beginHTML = generateHTML.initialHTML(teamCards);
+            writeToFile("./index.html", generateHTML.initialHTML());
+            generateHTML.HTMLBuild();
         } else {
             console.log("Need to have a job title");
         }
@@ -61,9 +62,10 @@ const managerQ = () => {
     ])
     .then((data) => {
     const managerCard = new Manager(data.givenName, data.id, data.email, data.officeNumber);
-        team.push(managerCard);
+        teamCards.push(managerCard);
         questions();
     })
+
 };
 
 const internQ = () => {
@@ -76,7 +78,7 @@ const internQ = () => {
     ])
         .then((data) => {
         const internCard = new Intern(data.givenName, data.id, data.email, data.school);
-        team.push(internCard);
+        teamCards.push(internCard);
         questions();
     })
 };
@@ -91,117 +93,15 @@ const engineerQ = () => {
     ])
     .then((data) => {
         const engineerCard = new Engineer(data.givenName, data.id, data.email, data.github);
-            team.push(engineerCard);
-            questions();
+            teamCards.push(engineerCard);
+        questions();
     })
 };
 
-
-const initialHTML = () => {
-    console.log("this works");
-    return`<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-    <title>My Team</title>
-</head>
-<body>
-    <h1>My Team</h1>
-    <style type="text/css">
-        h1 {
-            background-color: red;
-            text-align: center;
-            color: white;
-            padding: 25px;
-        }
-    </style>
-</body>
-</html>
-`
+const writeToFile = (file, data) => {
+    fs.writeFile(file, data, (err) => 
+    err ? console.error(err) : console.log("html created"));
 }
 
-const cardOptions = () => {
-    console.log("hi");
-    for (let i=0; i < team.length; i++){
-        if(team[i].getRole() === "Manager"){
-            cards[i] = 
-            `<div class="col">
-            <div class="card-body" style="width: 18rem;">
-                <div class="card-header text-white bg-primary" style="width: 18rem;" >
-                    <h5 class="card-title">${team[i].getName()}</h5>
-                    <h6 class="card-subtitle text-white">${team[i].getRole()}</h6>
-                </div>
-                <div class="card" style="width: 18rem;">
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">ID: ${team[i].getId()}</li>
-                    <li class="list-group-item">Email: <a href="mailto:${team[i].getEmail()}">${team[i].getEmail()}</a></li>
-                    <li class="list-group-item">Office Number: ${team[i].officeNumber}</li>
-                </ul>
-                <div></div>
-            </div>
-        </div>`
-        } else if(team[i].getRole() === "Intern") {
-            cards[i] = 
-            `<div class="col">
-            <div class="card-body" style="width: 18rem;">
-                <div class="card-header text-white bg-primary" style="width: 18rem;" >
-                    <h5 class="card-title">${team[i].getName()}</h5>
-                    <h6 class="card-subtitle text-white">${team[i].getRole()}</h6>
-                </div>
-                <div class="card" style="width: 18rem;">
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">ID: ${team[i].getId()}</li>
-                    <li class="list-group-item">Email: <a href="mailto:${team[i].getEmail()}">${team[i].getEmail()}</a></li>
-                    <li class="list-group-item">School: ${team[i].school}</li>
-                </ul>
-                <div></div>
-            </div>
-        </div>`
-        } else if (team[i].getRole() === "Engineer") {
-            `<div class="col">
-            <div class="card-body" style="width: 18rem;">
-                <div class="card-header text-white bg-primary" style="width: 18rem;" >
-                    <h5 class="card-title">${team[i].getName()}</h5>
-                    <h6 class="card-subtitle text-white">${team[i].getRole()}</h6>
-                </div>
-                <div class="card" style="width: 18rem;">
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">ID: ${team[i].getId()}</li>
-                    <li class="list-group-item">Email: <a href="mailto:${team[i].getEmail()}">${team[i].getEmail()}</a></li>
-                    <li class="list-group-item">GitHub: ${team[i].github}</li>
-                </ul>
-                <div></div>
-            </div>
-        </div>`
-        }
-        cardEl.push(cards[i]);
-    }
-}
-
-// const init = (data) => {
-//     fs.writeFile("index.html", data, initialHTML)
-//     .then(() => fs.appendFile("index.html", cardOptions));
-//     if (err) throw (err);
-// }
-// function empCardHTML() {
-//     for(let i=0;i<cards.length; i++){
-//         fs.appendFile("./dist/index.html", cards.length[i].toString());
-//     }
-// }
-
-
-// function writeHTML() {
-//     fs.writeFile(data, (err) =>
-//     err? console.log(err) : console.log('it worked'));
-//     initialHTML();
-// }
 
 questions();
-// function init() {
-//     fs.appendFile("index.html", initialHTML)
-
-// }
-// init();
