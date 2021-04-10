@@ -59,7 +59,7 @@ const cardOptionsHTML = (teamCards) => {
                     <li class="list-group-item">School: ${teamCards[i].school}</li>
                 </ul>
                 </div>
-        </div></div>`
+        </div>`
     } else if (teamCards[i].getRole() === "Engineer"){
         card[i] =
             `<div class="col">
@@ -75,8 +75,7 @@ const cardOptionsHTML = (teamCards) => {
                     <li class="list-group-item">GitHub: ${teamCards[i].github}</li>
                 </ul>
                 </div>
-            </div>    
-        </div>`
+            </div>`
         }
     cards.push(card[i]);
 }}
