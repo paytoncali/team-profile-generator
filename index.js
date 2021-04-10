@@ -50,7 +50,6 @@ const questions = () => {
 }
 
 const managerQ = () => {
-    console.log("manager called");
     inquirer.prompt ([
         {
             type: "input",
@@ -130,7 +129,7 @@ const engineerQ = () => {
         },
         {
             type: "input",
-            name: "gitHub",
+            name: "github",
             message: "What is there GitHub username?",
         }
     ])

@@ -42,13 +42,13 @@ const cardOptionsHTML = (teamCards) => {
                     <li class="list-group-item">Email: <a href="mailto:${teamCards[i].getEmail()}">${teamCards[i].getEmail()}</a></li>
                     <li class="list-group-item">Office Number: ${teamCards[i].officeNumber}</li>
                 </ul>
-            </div>
-        </div>` 
+                </div>
+            </div></div>` 
 } else if(teamCards[i].getRole() === "Intern"){
         card[i] = 
             `<div class="col">
             <div class="card-body" style="width: 18rem;">
-                <div class="card-header text-white bg-primary" style="width: 18rem;" >
+                <div class="card-header text-white bg-primary" style="width: 18rem;">
                     <h5 class="card-title">${teamCards[i].getName()}</h5>
                     <h6 class="card-subtitle text-white">${teamCards[i].getRole()}</h6>
                 </div>
@@ -58,8 +58,8 @@ const cardOptionsHTML = (teamCards) => {
                     <li class="list-group-item">Email: <a href="mailto:${teamCards[i].getEmail()}">${teamCards[i].getEmail()}</a></li>
                     <li class="list-group-item">School: ${teamCards[i].school}</li>
                 </ul>
-            </div>
-        </div>`
+                </div>
+        </div></div>`
     } else if (teamCards[i].getRole() === "Engineer"){
         card[i] =
             `<div class="col">
@@ -74,7 +74,8 @@ const cardOptionsHTML = (teamCards) => {
                     <li class="list-group-item">Email: <a href="mailto:${teamCards[i].getEmail()}">${teamCards[i].getEmail()}</a></li>
                     <li class="list-group-item">GitHub: ${teamCards[i].github}</li>
                 </ul>
-            </div>
+                </div>
+            </div>    
         </div>`
         }
     cards.push(card[i]);
@@ -95,6 +96,7 @@ const finalHTML = () => {
     appendToFile("./dist/index.html",
     `
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    </div>
     </body>
     </html>`);
 }
