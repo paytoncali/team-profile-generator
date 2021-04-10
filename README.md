@@ -21,6 +21,7 @@ npm init -y, npm init inquirer, npm i jest
 ### Usage
 This application is used to This application will be used by employers to collect employee information depending on their job title. Once the information is collected, it will display each employee in its own card on a web broswer. 
 
+[Walk Through Video](https://drive.google.com/file/d/12DLDYgc0WoVMi4kl7AaKmIJE9AV00ubi/view)
   
 ### Testing
 This appication was tested using jest.
